@@ -1,5 +1,6 @@
 package com.example.homework2_5.Service;
 
+import com.example.homework2_5.Exception.PasswordRestrictionsException;
 import com.example.homework2_5.Exception.WrongLoginException;
 import com.example.homework2_5.Exception.WrongPasswordException;
 import org.springframework.stereotype.Service;
@@ -12,21 +13,23 @@ public class LoginOptionsService {
 
     public String stringLogin(String login, String password, String confirmPassword) {
         if (password.length() >= 20) {
-            throw new WrongLoginException();
+            throw new WrongLoginException("Пароль должен равняться или равняться 20 символам.");
         }
         if (!confirmPassword.equals(password)) {
-            throw new WrongPasswordException();
+            throw new WrongPasswordException("Пароль не совпадает!");
         }
         if (login.length() > 20) {
-            throw new WrongPasswordException();
+            throw new WrongPasswordException("Длина пароля больше 20 символов.");
         }
         for (char s: password.toCharArray()) {
+            // Получается тут for не нужен?
             if (!validCharPassword.contains(String.valueOf(s))) {
-                throw new WrongPasswordException();
+                throw new PasswordRestrictionsException("Нельзя использовать данные символы!");
             }
             for (char a : login.toCharArray()) {
+                // И тут тоже? Просто if?
                 if (!validCharLogin.contains(String.valueOf(a))) {
-                    throw new WrongLoginException();
+                    throw new PasswordRestrictionsException("Нельзя использовать данные символы!");
                 }
             }
         }
