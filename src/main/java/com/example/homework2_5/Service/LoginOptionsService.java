@@ -22,17 +22,14 @@ public class LoginOptionsService {
             throw new WrongPasswordException("Длина пароля больше 20 символов.");
         }
         for (char s: password.toCharArray()) {
-            // Получается тут for не нужен?
             if (!validCharPassword.contains(String.valueOf(s))) {
                 throw new PasswordRestrictionsException("Нельзя использовать данные символы!");
             }
-            for (char a : login.toCharArray()) {
-                // И тут тоже? Просто if?
-                if (!validCharLogin.contains(String.valueOf(a))) {
-                    throw new PasswordRestrictionsException("Нельзя использовать данные символы!");
-                }
-            }
         }
+        for (char a : login.toCharArray())
+            if (!validCharLogin.contains(String.valueOf(a))) {
+                throw new PasswordRestrictionsException("Нельзя использовать данные символы!");
+            }
         return String.valueOf(true);
     }
 }
